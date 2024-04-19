@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Input } from '@mui/base/Input';
+import Form from "./components/form";
+import useFetch from "./useFetch";
+import SimpleCard from "./components/card";
+import { useSelector } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
+const App = () => {
+  const { error } = useFetch('http://localhost:8000/tasks');
+
+  const todos = useSelector(state => state.task.value);
+  return ( 
+    <div>
+      <header className="app_header">
+        <Form />
       </header>
+      <div>
+      {todos.map(todo => (
+          <SimpleCard key={todo.id} todo={todo} />))}
+      </div>
     </div>
-  );
-}
 
+   );
+}
+ 
 export default App;
